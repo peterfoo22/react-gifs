@@ -36,8 +36,10 @@ renderSearchResults = () => {
     if(ourResults){
       return (
         <div className = "image-container">
-          {ourResults.forEach(result =>{
-
+          {ourResults.map(result =>{
+            return  <div key = {result.id} className = "img-wrapper">
+                      <iframe src={result.embed_url} frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                    </div>
           })}
         </div>
       )
