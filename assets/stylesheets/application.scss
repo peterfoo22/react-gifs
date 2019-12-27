@@ -5,6 +5,8 @@ body {
 #root {
   height: 100;
   display: flex;
+
+
 }
 
 
@@ -19,8 +21,10 @@ body {
   border-style: solid;
 }
 
-.image-container{
+.otherBox{
 
+  display:flex;
+  justify-content: space-evenly;
 
 }
 

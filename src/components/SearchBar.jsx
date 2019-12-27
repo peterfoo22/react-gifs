@@ -7,10 +7,11 @@ class SearchBar extends Component {
       results: [],
       query: " ",
       loading: false,
-      message: ''
+      imageChosen: ''
     };
 
     this.handleChange = this.handleChange.bind(this)
+    this.pickImage = this.pickImage.bind(this)
 
   }
 
@@ -23,22 +24,46 @@ fetchSearchResults = (query) => {
 }
 
 handleChange (event) {
-  const searchWord = event.target.value
+  const searchWord = event.target.value;
   this.setState({
     query: event.target.value, loading: true, message: ""
-  }, ()=> { this.fetchSearchResults(searchWord)})
+  }, () => { this.fetchSearchResults(searchWord)});
 
 }
 
+pickImage (event) {
+  const imageLink = event.target.src;
+  this.setState({
+    imageChosen: imageLink
+  });
+}
+
+renderPickedImage = () => {
+  return (
+      <div>
+        <iframe src={this.state.imageChosen}
+                            frameBorder="0"
+                            className="picked-giphy"
+                            allowFullScreen >
+        </iframe>
+      </div>
+  )
+}
+
 renderSearchResults = () => {
-  const ourResults = (this.state.results.data)
+  const ourResults = (this.state.results.data);
 
     if(ourResults){
       return (
         <div className = "image-container">
           {ourResults.map(result =>{
             return  <div key = {result.id} className = "img-wrapper">
-                      <iframe src={result.embed_url} frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                      <iframe src={result.embed_url}
+                        frameBorder="0"
+                        className="giphy-embed"
+                        allowFullScreen
+                        onMouseOver = {this.pickImage}>
+                      </iframe>
                     </div>
           })}
         </div>
@@ -52,23 +77,18 @@ renderSearchResults = () => {
 
     const {query} = this.state
     return (
-
-      <div>
-          <form onSubmit={this.handleSubmit}>
-
-
-              <input type="text"
-                     placeholder = "Search GIFS"
-                     value = {query}
-                     onChange = {this.handleChange}
-              />
-
-
+      <div className = "otherBox">
+          <form>
+            <input type="text"
+                   placeholder = "Search GIFS"
+                   value = {query}
+                   onChange = {this.handleChange}
+            />
           </form>
 
         {this.renderSearchResults()}
+        {this.renderPickedImage()}
       </div>
-
     );
 
   }
